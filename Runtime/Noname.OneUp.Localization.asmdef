@@ -1,0 +1,24 @@
+{
+    "name": "Noname.OneUp.Localization",
+    "rootNamespace": "",
+    "references": [
+        "Unity.TextMeshPro",
+        "Unity.Localization",
+        "Unity.Addressables"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.textmeshpro",
+            "expression": "2.1.0",
+            "define": "TMP_VERSION_2_1_0_OR_NEWER"
+        }
+    ],
+    "noEngineReferences": false
+}
