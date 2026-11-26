@@ -18,6 +18,8 @@ RTLFontChanger selects shared Fonts materials without making per-text instances.
 | LO-37 | World text enforces the same policy | Planned |
 | LO-38 | Shadow/NoShadow toggles resolve the correct source and custom colors survive | Planned |
 | LO-39 | Missing source safely defers styling until Fonts becomes available | Planned |
+| LO-40 | Existing world NoShadow selection is preserved in both languages; explicit toggles work | Planned |
+| LO-41 | In-place/instance overrides and re-enable cannot bypass the policy | Planned |
 
 Package-only validation runs in an isolated Unity project; no game boot or designer save data access. Run only these new cases. Record exact red/green results and version/archive validation below before PR delivery.
 

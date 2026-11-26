@@ -158,6 +158,45 @@ public class FontMaterialStyleTests
         Assert.AreSame(current, RTLSharedMaterial.ApplyFontStyle(current, null, true));
     }
 
+    [TestCase(true)]
+    [TestCase(false)]
+    public void LO_40_WorldTextPreservesExistingNoShadowChoice(bool isPersian)
+    {
+        LocalizationSettings.SelectedLocale = isPersian ? persian : english;
+        GameObject root = Own(new GameObject("Existing world label"));
+        RTLTextMeshPro3D text = root.AddComponent<RTLTextMeshPro3D>();
+        Material source = isPersian ? database.PersianNoShadow : database.EnglishNoShadow;
+        text.font = isPersian ? database.PersianFont : database.EnglishFont;
+        text.fontSharedMaterial = source;
+        Canvas.ForceUpdateCanvases();
+        Assert.AreSame(source, text.fontSharedMaterial);
+        Assert.IsFalse(text.HasShadow);
+        text.HasShadow = true;
+        Canvas.ForceUpdateCanvases();
+        AssertShadow(text.fontSharedMaterial, isPersian ? database.PersianShadow : database.EnglishShadow);
+        text.HasShadow = false;
+        Assert.AreSame(source, text.fontSharedMaterial);
+    }
+
+    [Test]
+    public void LO_41_InPlaceOverrideAndFontMaterialInstanceAreCorrected()
+    {
+        RTLTextMeshPro text = CreateUi();
+        Material overrideMaterial = Own(new Material(database.PersianShadow));
+        text.fontMaterial = overrideMaterial;
+        Canvas.ForceUpdateCanvases();
+        Assert.AreEqual(0f, text.fontSharedMaterial.GetFloat(ShaderUtilities.ID_OutlineWidth));
+        Material material = text.fontMaterial;
+        owned.Add(material);
+        material.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.4f);
+        material.EnableKeyword("OUTLINE_ON");
+        Canvas.ForceUpdateCanvases();
+        Assert.AreEqual(0f, text.fontSharedMaterial.GetFloat(ShaderUtilities.ID_OutlineWidth));
+        text.gameObject.SetActive(false);
+        text.gameObject.SetActive(true);
+        Assert.AreEqual(0f, text.fontSharedMaterial.GetFloat(ShaderUtilities.ID_OutlineWidth));
+    }
+
     private RTLTextMeshPro CreateUi()
     {
         GameObject root = Own(new GameObject("UI label", typeof(RectTransform)));
