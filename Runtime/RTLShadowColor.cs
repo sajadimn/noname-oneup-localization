@@ -10,6 +10,7 @@ public class RTLShadowColor : MonoBehaviour
 
     private TMP_Text text;
     private Material colored;
+    private Material colorSource;
 
     public void SetColors(Color outline, Color underlay)
     {
@@ -42,6 +43,9 @@ public class RTLShadowColor : MonoBehaviour
     {
         if (current == null)
             return null;
+        if (current == colorSource && colored != null)
+            return colored;
+        colorSource = current;
         if (current.GetColor(ShaderUtilities.ID_OutlineColor) == outlineColor &&
             current.GetColor(ShaderUtilities.ID_UnderlayColor) == underlayColor)
         {

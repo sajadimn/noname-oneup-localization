@@ -34,9 +34,13 @@ public class FontMaterialRuntimeTests
         Locale english = null;
         try
         {
+            database.Missing = true;
             root = new GameObject("Runtime label", typeof(RectTransform));
             RTLTextMeshPro text = root.AddComponent<RTLTextMeshPro>();
             yield return null;
+            database.Missing = false;
+            yield return null;
+            Assert.AreSame(database.PersianFont, text.font);
             Material source = LocalizationSettings.AssetDatabase.GetLocalizedAsset<Material>("Fonts", "MaterialShadow");
             custom = new Material(source);
             custom.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.24f);
