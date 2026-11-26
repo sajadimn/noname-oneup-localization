@@ -51,7 +51,7 @@ public class RTLFontChanger : MonoBehaviour
         if (RTLTextMeshPro == null)
             RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
 
-        return RTLTextMeshPro.font != null && RTLTextMeshPro.fontSharedMaterial != null;
+        return RTLTextMeshPro != null && RTLTextMeshPro.font != null && RTLTextMeshPro.fontSharedMaterial != null;
     }
 
     private void OnDisable()
@@ -81,18 +81,29 @@ public class RTLFontChanger : MonoBehaviour
     {
         try
         {
-            initialized = true;
             if (RTLTextMeshPro == null)
                 RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
-
-            RTLTextMeshPro.font = LocalizationSettings.Instance.GetAssetDatabase()
-                .GetLocalizedAsset<TMP_FontAsset>(assetTableName, assetFontKey);
+            if (RTLTextMeshPro == null)
+            {
+                initialized = false;
+                return;
+            }
             
             string key = RTLTextMeshPro.HasShadow ? assetShadowMaterial : assetNoShadowMaterial;
-            RTLTextMeshPro.fontSharedMaterial = RTLSharedMaterial.GetConfiguredMaterial(assetTableName, key);
+            TMP_FontAsset font = LocalizationSettings.Instance.GetAssetDatabase()
+                .GetLocalizedAsset<TMP_FontAsset>(assetTableName, assetFontKey);
+            Material material = RTLSharedMaterial.GetConfiguredMaterial(assetTableName, key);
+            if (font == null || material == null)
+            {
+                initialized = false;
+                return;
+            }
+            RTLTextMeshPro.font = font;
+            RTLTextMeshPro.fontSharedMaterial = material;
 
             RTLTextMeshPro.UpdateFontAsset();
             lastLanguage = LocalizationSettings.SelectedLocale.Identifier.Code;
+            initialized = true;
         }
         catch (Exception e)
         {
@@ -104,6 +115,8 @@ public class RTLFontChanger : MonoBehaviour
     {
         if (RTLTextMeshPro == null)
             RTLTextMeshPro = GetComponent<RTLTextMeshPro>();
+        if (RTLTextMeshPro == null)
+            return;
 
         Locale locale = LocalizationSettings.SelectedLocale ?? LocalizationSettings.ProjectLocale;
         if (locale == null)
