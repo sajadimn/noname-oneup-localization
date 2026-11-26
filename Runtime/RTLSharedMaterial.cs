@@ -46,6 +46,9 @@ public static class RTLSharedMaterial
     {
         if (!TryGetLocale(out Locale locale) || LocalizationSettings.AssetDatabase == null)
             return null;
+        var initialization = LocalizationSettings.InitializationOperation;
+        if (!initialization.IsValid() || !initialization.IsDone || initialization.Status != AsyncOperationStatus.Succeeded)
+            return null;
         var database = LocalizationSettings.AssetDatabase;
         var id = (database, locale, table, key, typeof(T));
         if (!FontAssets.TryGetValue(id, out AsyncOperationHandle operation) || !operation.IsValid())
