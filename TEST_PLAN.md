@@ -20,10 +20,13 @@ RTLFontChanger selects shared Fonts materials without making per-text instances.
 | LO-39 | Missing source safely defers styling until Fonts becomes available | Planned |
 | LO-40 | Existing world NoShadow selection is preserved in both languages; explicit toggles work | Planned |
 | LO-41 | In-place/instance overrides and re-enable cannot bypass the policy | Planned |
+| LO-42 | Runtime UI creation, frame updates, custom colors, toggles and locale switches preserve font/material policy | Planned |
 
 Package-only validation runs in an isolated Unity project; no game boot or designer save data access. Run only these new cases. Record exact red/green results and version/archive validation below before PR delivery.
 
 Red: Unity 6000.2.13f1 isolated batch EditMode run with filter FontMaterialStyleTests fails compilation with CS0117 for the not-yet-implemented RTLSharedMaterial.ApplyFontStyle API. No runtime tests are claimed as executed at this stage.
+
+LO-42 runtime fixture uses an in-memory completed localization initialization and direct test asset database, because the isolated project intentionally has no Addressables content build. With the fixture corrected, creating a live UI label reproduces a real pre-existing initialization bug: the required RTLFontChanger enables before RTLTextMeshPro exists, dereferences null, and invokes the locale-reset error path. Defer initialization until the text and both selected font/material assets exist; retain the regression assertions.
 
 ## Delivery
 
