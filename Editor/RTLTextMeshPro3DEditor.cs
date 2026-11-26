@@ -12,6 +12,7 @@ namespace RTLTMPro
         private SerializedProperty farsiProp;
         private SerializedProperty fixTagsProp;
         private SerializedProperty forceFixProp;
+        private SerializedProperty hasShadowProp;
 
         private bool foldout;
         private RTLTextMeshPro3D tmpro;
@@ -24,6 +25,7 @@ namespace RTLTMPro
             farsiProp = serializedObject.FindProperty("farsi");
             fixTagsProp = serializedObject.FindProperty("fixTags");
             forceFixProp = serializedObject.FindProperty("forceFix");
+            hasShadowProp = serializedObject.FindProperty("hasShadow");
             originalTextProp = serializedObject.FindProperty("originalText");
         }
 
@@ -78,6 +80,7 @@ namespace RTLTMPro
             EditorGUI.BeginChangeCheck();
             farsiProp.boolValue = GUILayout.Toggle(farsiProp.boolValue, new GUIContent("Farsi"));
             forceFixProp.boolValue = GUILayout.Toggle(forceFixProp.boolValue, new GUIContent("Force Fix"));
+            hasShadowProp.boolValue = GUILayout.Toggle(hasShadowProp.boolValue, new GUIContent("Has Shadow"));
             preserveNumbersProp.boolValue = GUILayout.Toggle(preserveNumbersProp.boolValue, new GUIContent("Preserve Numbers"));
 
             if (tmpro.richText)

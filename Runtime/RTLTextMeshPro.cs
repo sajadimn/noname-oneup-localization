@@ -10,6 +10,45 @@ namespace RTLTMPro
     [RequireComponent(typeof(RTLFontChanger))]
     public class RTLTextMeshPro : TextMeshProUGUI
     {
+        public override Material fontSharedMaterial
+        {
+            get
+            {
+                ApplyFontStyle();
+                return base.fontSharedMaterial;
+            }
+            set { base.fontSharedMaterial = RTLSharedMaterial.ForText(this, value); }
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            Canvas.preWillRenderCanvases += ApplyFontStyle;
+            ApplyFontStyle();
+        }
+
+        protected override void OnDisable()
+        {
+            Canvas.preWillRenderCanvases -= ApplyFontStyle;
+            base.OnDisable();
+        }
+
+        public override void Rebuild(UnityEngine.UI.CanvasUpdate update)
+        {
+            ApplyFontStyle();
+            base.Rebuild(update);
+        }
+
+        private void ApplyFontStyle()
+        {
+            Material current = base.fontSharedMaterial;
+            Material styled = RTLSharedMaterial.ForText(this, current);
+            if (styled == current)
+                return;
+            base.fontSharedMaterial = styled;
+            UpdateMeshPadding();
+        }
+
         // ReSharper disable once InconsistentNaming
 #if TMP_VERSION_2_1_0_OR_NEWER
         public override string text

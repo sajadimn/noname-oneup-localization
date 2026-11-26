@@ -89,12 +89,8 @@ public class RTLFontChanger : MonoBehaviour
                 .GetLocalizedAsset<TMP_FontAsset>(assetTableName, assetFontKey);
             
             string key = RTLTextMeshPro.HasShadow ? assetShadowMaterial : assetNoShadowMaterial;
-            RTLTextMeshPro.fontMaterial = LocalizationSettings.Instance.GetAssetDatabase()
-                .GetLocalizedAsset<Material>(assetTableName, key);
+            RTLTextMeshPro.fontSharedMaterial = RTLSharedMaterial.GetConfiguredMaterial(assetTableName, key);
 
-            //Todo First Disable Preload And Synchronize Localization Then Remove This Rename Code And Check Text Fonts And Shadows(3 July Commit 18:18)
-            RTLTextMeshPro.font.name = RTLTextMeshPro.font.name;
-            RTLTextMeshPro.fontSharedMaterial.name = RTLTextMeshPro.fontSharedMaterial.name;
             RTLTextMeshPro.UpdateFontAsset();
             lastLanguage = LocalizationSettings.SelectedLocale.Identifier.Code;
         }
@@ -114,14 +110,16 @@ public class RTLFontChanger : MonoBehaviour
             return;
 
         string key = RTLTextMeshPro.HasShadow ? assetShadowMaterial : assetNoShadowMaterial;
-        Material material = LocalizationSettings.AssetDatabase.GetLocalizedAsset<Material>(assetTableName, key, locale);
+        Material material = RTLSharedMaterial.GetConfiguredMaterial(assetTableName, key);
         if (material == null)
             return;
 
-        if (Application.isPlaying)
-            RTLTextMeshPro.fontMaterial = material;
-        else
-            RTLTextMeshPro.fontSharedMaterial = material;
+        RTLTextMeshPro.fontSharedMaterial = material;
+    }
+
+    internal Material GetConfiguredMaterial(bool shadow)
+    {
+        return RTLSharedMaterial.GetConfiguredMaterial(assetTableName, shadow ? assetShadowMaterial : assetNoShadowMaterial);
     }
 
     private void ResetLocalize()
