@@ -9,6 +9,69 @@ namespace RTLTMPro
     [ExecuteInEditMode]
     public class RTLTextMeshPro3D : TextMeshPro
     {
+        [SerializeField] private int shadowStyle = -1;
+
+        public bool HasShadow
+        {
+            get { return UsesShadow(base.fontSharedMaterial); }
+            set
+            {
+                shadowStyle = value ? 1 : 0;
+                ApplyFontStyle();
+            }
+        }
+
+        internal bool UsesShadow(Material material)
+        {
+            if (shadowStyle >= 0)
+                return shadowStyle == 1;
+            return material != null && (material.IsKeywordEnabled("UNDERLAY_ON") || material.IsKeywordEnabled("UNDERLAY_INNER"));
+        }
+
+        public override Material fontSharedMaterial
+        {
+            get
+            {
+                ApplyFontStyle();
+                return base.fontSharedMaterial;
+            }
+            set { base.fontSharedMaterial = RTLSharedMaterial.ForText(this, value); }
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            Canvas.preWillRenderCanvases += ApplyFontStyle;
+            ApplyFontStyle();
+        }
+
+        protected override void OnDisable()
+        {
+            Canvas.preWillRenderCanvases -= ApplyFontStyle;
+            base.OnDisable();
+        }
+
+        private void OnWillRenderObject()
+        {
+            ApplyFontStyle();
+        }
+
+        public override void Rebuild(UnityEngine.UI.CanvasUpdate update)
+        {
+            ApplyFontStyle();
+            base.Rebuild(update);
+        }
+
+        private void ApplyFontStyle()
+        {
+            Material current = base.fontSharedMaterial;
+            Material styled = RTLSharedMaterial.ForText(this, current);
+            if (styled == current)
+                return;
+            base.fontSharedMaterial = styled;
+            UpdateMeshPadding();
+        }
+
         // ReSharper disable once InconsistentNaming
 #if RTL_OVERRIDE
         public override string text

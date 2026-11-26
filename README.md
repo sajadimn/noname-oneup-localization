@@ -18,6 +18,27 @@ https://github.com/sajadimn/noname-oneup-localization.git
 ## Dependencies
 Required: `com.unity.localization` (with Addressables), `com.unity.ugui` (TextMeshPro). No Odin: the two localize components have their own inspectors.
 
+## Font material styles — 1.0.1
+
+Use the existing `Fonts` table entries `MaterialShadow` and `MaterialNoShadow`. Their material settings control text effects:
+
+| Language | Shadow | NoShadow |
+|---|---|---|
+| Persian | Authored shadow, no outline or stroke | No shadow, outline or stroke |
+| English | Authored shadow and outline/stroke | No shadow, outline or stroke |
+
+`RTLTextMeshPro.HasShadow` keeps each UI label's choice. `RTLTextMeshPro3D` preserves an existing world's material shadow choice until `HasShadow` is explicitly set; its inspector also exposes the toggle. The policy applies to existing and newly instantiated RTL text, before rendering and after language or material changes. Custom width/dilation overrides are replaced with the selected Fonts material settings. Plain TMP components should be migrated to the corresponding RTL component to receive this enforcement.
+
+`RTLShadowColor` continues to supply per-label outline and underlay colors through shared variants. It does not change outline width or shadow geometry, and a NoShadow label ignores shadow colors. Fonts materials are never modified. The Persian no-outline constraint also protects against a misconfigured Persian source material without modifying that asset. Font/material selection defers safely while the text component or assets are not yet available.
+
+No new dependencies or configuration assets. The original 1.0.0 font payload and its GUIDs are included unchanged; `Fonts~` is explicitly tracked despite the global `*~` ignore rule.
+
+## Package validation and distribution
+
+Validation evidence and the review checklist are recorded in the GitHub pull request. Test code and agent instructions are kept outside this package.
+
+Build the release tarball from a clean checkout with `python3 Tools~/build_package.py --output /path/to/output`. It includes package runtime/editor code, fonts, ranges, README, license and package metadata under `package/`. Test code, agent instructions and development tools are excluded from the archive. The builder verifies the version/layout and reports its checksum. Attach the tarball to the GitHub release after PR review and merge.
+
 ## Setup
 The setup runs by itself after the package is imported, and again whenever something it adds is missing. It never replaces what the project already has:
 
