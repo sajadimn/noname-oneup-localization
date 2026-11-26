@@ -4,7 +4,8 @@
     "references": [
         "Unity.TextMeshPro",
         "Unity.Localization",
-        "Unity.Addressables"
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
