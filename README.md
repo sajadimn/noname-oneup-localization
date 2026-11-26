@@ -24,6 +24,8 @@ Required: `com.unity.localization` (with Addressables), `com.unity.ugui` (TextMe
 
 1.0.1 could synchronously load localized assets while a text material was being read during a cold Editor/locale preload, blocking Unity. External regression cases LO-43/44 reproduce synchronous loading from material resolution and the getter. Keep material getters read-only; request font/material assets asynchronously, keep the current material while pending, and apply the existing Fonts style once ready. Validation and recovery evidence are recorded in the PR; tests remain outside the package.
 
+Full startup also requires localization initialization to complete before any font/material requests. LO-45 reproduces premature requests during preload; pending or failed initialization retains the existing text material.
+
 Use the existing `Fonts` table entries `MaterialShadow` and `MaterialNoShadow`. Their material settings control text effects:
 
 | Language | Shadow | NoShadow |
