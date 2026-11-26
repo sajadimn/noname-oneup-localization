@@ -26,6 +26,8 @@ Required: `com.unity.localization` (with Addressables), `com.unity.ugui` (TextMe
 
 Full startup also requires localization initialization to complete before any font/material requests. LO-45 reproduces premature requests during preload; pending or failed initialization retains the existing text material.
 
+Editor previews resolve the same configured asset-table GUIDs directly through AssetDatabase and never initialize the runtime localization preload (LO-46). Loading is deferred during Play Mode transitions. Custom localized asset databases keep their asynchronous resolution behavior.
+
 Use the existing `Fonts` table entries `MaterialShadow` and `MaterialNoShadow`. Their material settings control text effects:
 
 | Language | Shadow | NoShadow |
