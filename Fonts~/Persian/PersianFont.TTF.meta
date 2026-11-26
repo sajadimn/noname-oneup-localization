@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 546e88566a9650640b0cb305da7437d9
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Lalezar
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7174fec4915c70b469ebbbf4298e10f4, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

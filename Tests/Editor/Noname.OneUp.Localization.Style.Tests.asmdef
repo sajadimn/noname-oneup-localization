@@ -1,0 +1,6 @@
+{
+  "name": "Noname.OneUp.Localization.Style.Tests",
+  "references": ["Noname.OneUp.Localization", "Unity.TextMeshPro", "Unity.Localization", "Unity.Addressables", "Unity.ResourceManager"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}

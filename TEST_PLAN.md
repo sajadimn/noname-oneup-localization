@@ -21,6 +21,8 @@ RTLFontChanger selects shared Fonts materials without making per-text instances.
 
 Package-only validation runs in an isolated Unity project; no game boot or designer save data access. Run only these new cases. Record exact red/green results and version/archive validation below before PR delivery.
 
+Red: Unity 6000.2.13f1 isolated batch EditMode run with filter FontMaterialStyleTests fails compilation with CS0117 for the not-yet-implemented RTLSharedMaterial.ApplyFontStyle API. No runtime tests are claimed as executed at this stage.
+
 ## Delivery
 
 Version 1.0.1; branch fix/1.0.1-font-material-styles. Build a UPM .tgz with package/ layout, existing GUIDs preserved. Open a PR; leave merge and release publication to the designer.
