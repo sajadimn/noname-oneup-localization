@@ -9,16 +9,23 @@ namespace RTLTMPro
     [ExecuteInEditMode]
     public class RTLTextMeshPro3D : TextMeshPro
     {
-        [SerializeField] private bool hasShadow = true;
+        [SerializeField] private int shadowStyle = -1;
 
         public bool HasShadow
         {
-            get { return hasShadow; }
+            get { return UsesShadow(base.fontSharedMaterial); }
             set
             {
-                hasShadow = value;
+                shadowStyle = value ? 1 : 0;
                 ApplyFontStyle();
             }
+        }
+
+        internal bool UsesShadow(Material material)
+        {
+            if (shadowStyle >= 0)
+                return shadowStyle == 1;
+            return material != null && (material.IsKeywordEnabled("UNDERLAY_ON") || material.IsKeywordEnabled("UNDERLAY_INNER"));
         }
 
         public override Material fontSharedMaterial

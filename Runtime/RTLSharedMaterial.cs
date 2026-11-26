@@ -39,7 +39,7 @@ public static class RTLSharedMaterial
     {
         if (text == null || !LocalizationSettings.HasSettings || LocalizationSettings.SelectedLocale == null)
             return current;
-        bool shadow = text is RTLTextMeshPro ui ? ui.HasShadow : text is RTLTextMeshPro3D world && world.HasShadow;
+        bool shadow = text is RTLTextMeshPro ui ? ui.HasShadow : text is RTLTextMeshPro3D world && world.UsesShadow(current);
         RTLFontChanger changer = text.GetComponent<RTLFontChanger>();
         Material configured = changer != null ? changer.GetConfiguredMaterial(shadow) :
             GetConfiguredMaterial("Fonts", shadow ? "MaterialShadow" : "MaterialNoShadow");
