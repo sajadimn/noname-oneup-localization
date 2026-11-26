@@ -35,9 +35,9 @@ No new dependencies or configuration assets. The original 1.0.0 font payload and
 
 ## Package validation and distribution
 
-Focused regression coverage is recorded in `TEST_PLAN.md`. Tests are opt-in through the project's Package Manager `testables` list, using the project's normal `Assets/Fonts/<Language>` setup. Run `FontMaterialStyleTests` in EditMode and `FontMaterialRuntimeTests.LO_42_PM_MaterialsStayCorrectAcrossFramesAndLocaleChanges` in EditMode; the latter enters/exits PlayMode in an isolated project.
+Validation evidence and the review checklist are recorded in the GitHub pull request. Test code and agent instructions are kept outside this package.
 
-Build the release tarball from a clean checkout with `python3 Tools~/build_package.py --output /path/to/output`. It includes tracked content under `package/`, including hidden Unity font payloads and `.meta` files, and verifies the package version/layout before reporting its checksum. Attach that tarball to the GitHub release after PR review and merge.
+Build the release tarball from a clean checkout with `python3 Tools~/build_package.py --output /path/to/output`. It includes package runtime/editor code, fonts, ranges, README, license and package metadata under `package/`. Test code, agent instructions and development tools are excluded from the archive. The builder verifies the version/layout and reports its checksum. Attach the tarball to the GitHub release after PR review and merge.
 
 ## Setup
 The setup runs by itself after the package is imported, and again whenever something it adds is missing. It never replaces what the project already has:

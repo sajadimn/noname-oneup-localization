@@ -11,7 +11,9 @@ args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 manifest = json.loads((root / 'package.json').read_text())
 tracked = subprocess.check_output(['git', '-C', str(root), 'ls-files', '-z']).decode().split('\0')
-tracked = sorted(path for path in tracked if path)
+folders = ('Runtime/', 'Editor/', 'Fonts~/', 'Ranges/')
+files = {'Runtime.meta', 'Editor.meta', 'Ranges.meta', 'README.md', 'README.md.meta', 'LICENSE', 'LICENSE.meta', 'package.json', 'package.json.meta'}
+tracked = sorted(path for path in tracked if path in files or path.startswith(folders))
 for folder in ('Runtime/', 'Editor/', 'Fonts~/English/', 'Fonts~/Persian/', 'Fonts~/Turkish/'):
     if not any(path.startswith(folder) for path in tracked):
         raise SystemExit('Missing package content: ' + folder)
