@@ -14,7 +14,6 @@ namespace RTLTMPro
         {
             get
             {
-                ApplyFontStyle();
                 return base.fontSharedMaterial;
             }
             set { base.fontSharedMaterial = RTLSharedMaterial.ForText(this, value); }
@@ -225,13 +224,13 @@ namespace RTLTMPro
 
         private bool IsLanguageChanged()
         {
-            if (LocalizationSettings.SelectedLocale == null)
+            if (!RTLSharedMaterial.TryGetLocale(out var locale))
                 return false;
 
-            if (lastLanguage == LocalizationSettings.SelectedLocale.Identifier.Code)
+            if (lastLanguage == locale.Identifier.Code)
                 return false;
 
-            lastLanguage = LocalizationSettings.SelectedLocale.Identifier.Code;
+            lastLanguage = locale.Identifier.Code;
             return true;
         }
 
@@ -257,10 +256,10 @@ namespace RTLTMPro
 
         private void SetRTL()
         {
-            if (LocalizationSettings.SelectedLocale == null)
+            if (!RTLSharedMaterial.TryGetLocale(out var locale))
                 return;
 
-            CultureInfo cultureInfo = new CultureInfo(LocalizationSettings.SelectedLocale.Identifier.Code);
+            CultureInfo cultureInfo = new CultureInfo(locale.Identifier.Code);
             ForceFix = cultureInfo.TextInfo.IsRightToLeft;
 
             PreserveNumbers = false;

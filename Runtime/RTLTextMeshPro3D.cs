@@ -32,7 +32,6 @@ namespace RTLTMPro
         {
             get
             {
-                ApplyFontStyle();
                 return base.fontSharedMaterial;
             }
             set { base.fontSharedMaterial = RTLSharedMaterial.ForText(this, value); }
